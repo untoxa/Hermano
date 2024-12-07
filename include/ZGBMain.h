@@ -1,6 +1,13 @@
 #ifndef ZGBMAIN_H
 #define ZGBMAIN_H
 
+#include <gbdk/platform.h>
+
+typedef struct {
+	UINT8 posee, estado, contador_tiempo, tocado, life;
+	INT16 vy;
+} COMMON_FIELDS_T;
+
 #define STATES \
 _STATE(StateMenu)\
 _STATE(StateTituloNivel)\

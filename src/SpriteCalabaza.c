@@ -13,41 +13,42 @@ void CreateEnemyProyectile(UINT16 x, UINT16 y, INT8 vx_, INT16 vy_, INT8 gravity
 
 extern unsigned char half_life;
 typedef struct {
-	INT8 vx;
-	INT8 offset_x;
-
+	COMMON_FIELDS_T common;
+	INT8  vx;
+	INT8  offset_x;
 } CUSTOM_DATA;
+CHECK_CUSTOM_DATA_SIZE(CUSTOM_DATA);
 
-void START() { 
+void START(void) { 
+	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 
 	THIS->attr_add |= S_PALETTE;
 
-	THIS->estado = 1; //Necesario para las colisiones
+	data->common.estado = 1; //Necesario para las colisiones
 	THIS->lim_x = 64;
 	THIS->lim_y = 64;
 	
-	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 	if (THIS->x > scroll_x) data->vx = -1; else data->vx = 1;
 	
-	THIS->contador_tiempo = 10;
+	data->common.contador_tiempo = 10;
 	
 	THIS->y -= 2;
 	
-	THIS->life = 1;
+	data->common.life = 1;
 }
 
-void UPDATE() {
+void UPDATE(void) {
 	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 	
 	// Tocado y resta vida
-	if (THIS->tocado > 0) {
-		THIS->tocado --;
+	if (data->common.tocado > 0) {
+		data->common.tocado --;
 		THIS->visible = half_life;
-		if (THIS->tocado == 0) THIS->visible = 1u;
+		if (data->common.tocado == 0) THIS->visible = 1u;
 	}
 	
 	
-	switch (THIS->estado) {
+	switch (data->common.estado) {
 		
 		case 1:
 			
@@ -72,28 +73,28 @@ void UPDATE() {
 			SetSpriteAnim(THIS, anim_calabaza_walk, 12u);
 			
 			
-			THIS->contador_tiempo --;
-			if (THIS->contador_tiempo == 0) {
-				THIS->estado = 2;
-				THIS->contador_tiempo = 20;
+			data->common.contador_tiempo --;
+			if (data->common.contador_tiempo == 0) {
+				data->common.estado = 2;
+				data->common.contador_tiempo = 20;
 			}
 		break;
 		
 		case 2:
 			SetSpriteAnim(THIS, anim_calabaza_idle, 20u);
 			
-			THIS->contador_tiempo --;
-			if (THIS->contador_tiempo == 0) {
-				THIS->estado = 1;
-				THIS->contador_tiempo = 50;
+			data->common.contador_tiempo --;
+			if (data->common.contador_tiempo == 0) {
+				data->common.estado = 1;
+				data->common.contador_tiempo = 50;
 				if (THIS->y > scroll_y)	CreateEnemyProyectile(THIS->x + data->offset_x, THIS->y + 4, data->vx<<1, -160, 10);
 			}
 		break;
 		
 		default:
-			if (THIS->estado == 99){
+			if (data->common.estado == 99){
 				SpriteManagerAdd(SpriteSoul, THIS->x + 4, THIS->y + 4);
-				THIS->estado ++;
+				data->common.estado ++;
 				
 			}
 			THIS->visible = 0; //Hacerlo invisible
@@ -101,8 +102,5 @@ void UPDATE() {
 	}
 }
 
-void DESTROY() { 
-
-	
-
+void DESTROY(void) { 
 }

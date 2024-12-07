@@ -16,16 +16,15 @@ UINT8 tutorial = 0;
 extern unsigned char level, mundo_actual, vidas, has_key;
 extern unsigned int x_checkpoint, y_checkpoint;
 
-void START() {
-	
+void START(void) {	
 	//Init SFX
-	NR52_REG = 0x80; //Enables sound, you should always setup this first
-	NR51_REG = 0xFF; //Enables all channels (left and right)
-	NR50_REG = 0xF7; //Max volume
+	INIT_SOUND();
 	
+#ifdef NINTENDO
 	//Change Sprite Palettes
 	OBP0_REG = PAL_DEF(0,1,3,2); //Cambia la paleta 0
 	OBP1_REG = PAL_DEF(1,0,3,2); //Cambia la paleta 1
+#endif
 	
 	mundo_actual = 0;
 	level = 0;
@@ -41,15 +40,9 @@ void START() {
 	PlayMusic(title, 0);
 	SpriteManagerAdd(SpritePress, 40, 94);
 	SpriteManagerAdd(SpriteOjillos, 131, 38);
-
 }
 
-
-
-
-
-void UPDATE() {
-	
+void UPDATE(void) {	
 	if(KEY_TICKED(J_START)) {
 		
 		if (tutorial == 0){

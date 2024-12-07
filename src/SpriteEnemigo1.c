@@ -14,19 +14,21 @@ extern unsigned int y_eje_actual;
 extern UINT8 delta_time;
 
 typedef struct {
-	UINT8 facedown;
-	INT8 vx;
-	INT8 offset_x;
-	INT16 offset_y;
-	UINT8 last_mirror;
+	COMMON_FIELDS_T common;
+	UINT8  facedown;
+	INT8   vx;
+	INT8   offset_x;
+	INT16  offset_y;
+	UINT8  last_mirror;
 } CUSTOM_DATA;
+CHECK_CUSTOM_DATA_SIZE(CUSTOM_DATA);
 
-void START() { 
-	THIS->estado = 1; //Necesario para las colisiones
+void START(void) { 
+	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
+	data->common.estado = 1; //Necesario para las colisiones
 	THIS->lim_x = 64;
 	THIS->lim_y = 64;
 	
-	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 	if (THIS->x > scroll_x) data->vx = -1; else data->vx = 1;
 	
 	if ((INT16)THIS->y > (INT16)y_eje_actual) { 
@@ -40,25 +42,25 @@ void START() {
 	data->last_mirror = 0;
 	THIS->y -= 2;
 	
-	THIS->life = 2;
+	data->common.life = 2;
 }
 
-void UPDATE() {
+void UPDATE(void) {
 	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 	
-	if(THIS->estado == 1) {
+	if(data->common.estado == 1) {
 		
-		if (THIS->tocado > 0) {
-			if (THIS->tocado == 10){
+		if (data->common.tocado > 0) {
+			if (data->common.tocado == 10){
 			
-				THIS->life --;
-				if (THIS->life > 200){
-					THIS->estado = 99;
+				data->common.life --;
+				if (data->common.life > 200){
+					data->common.estado = 99;
 				}
 			}
-			THIS->tocado --;
+			data->common.tocado --;
 			THIS->visible = half_life;
-			if (THIS->tocado == 0) THIS->visible = 1u;
+			if (data->common.tocado == 0) THIS->visible = 1u;
 		}
 		
 		if (data->vx < 0){
@@ -85,17 +87,14 @@ void UPDATE() {
 		
 	} else {
 
-		if (THIS->estado == 99){
+		if (data->common.estado == 99){
 			SpriteManagerAdd(SpriteSoul, THIS->x + 4, THIS->y + 4);
-			THIS->estado ++;
+			data->common.estado ++;
 			
 		}
 		THIS->visible = 0; //Hacerlo invisible
 	}
 }
 
-void DESTROY() { 
-
-	
-
+void DESTROY(void) { 
 }

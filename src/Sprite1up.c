@@ -9,8 +9,13 @@
 extern unsigned int y_eje_actual;
 extern unsigned char vidaextra, vidas;
 
-void START() { 
-	THIS->estado = 1; //Necesario para las colisiones
+typedef struct {
+	COMMON_FIELDS_T common;
+} CUSTOM_DATA;
+CHECK_CUSTOM_DATA_SIZE(CUSTOM_DATA);
+
+void START(void) { 
+	((CUSTOM_DATA*)(THIS->custom_data))->common.estado = 1; //Necesario para las colisiones
 	// if ((INT16)THIS->y > (INT16)y_eje_actual) { 
 		// THIS->mirror = H_MIRROR;
 	// }else{
@@ -23,11 +28,10 @@ void START() {
 	}
 }
 
-void UPDATE() {
+void UPDATE(void) {
 	UINT8 i;
 	Sprite* spr;
-	SPRITEMANAGER_ITERATE(i, spr) {
-		
+	SPRITEMANAGER_ITERATE(i, spr) {		
 		if (spr->type == SpritePlayer){
 			if(CheckCollision(THIS, spr)) {
 				vidas++; vidaextra = 1;
@@ -40,5 +44,5 @@ void UPDATE() {
 
 }
 
-void DESTROY() { 
+void DESTROY(void) { 
 }

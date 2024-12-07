@@ -13,6 +13,10 @@
 DECLARE_MUSIC(muerte);
 DECLARE_MUSIC(stageclear);
 
+typedef struct {
+	COMMON_FIELDS_T common;
+} CUSTOM_DATA;
+CHECK_CUSTOM_DATA_SIZE(CUSTOM_DATA);
 
 void CreateBomb(UINT16 x, UINT16 y, INT8 vx_, INT16 vy_, INT8 gravity_) BANKED;
 void CreateCraneo(UINT16 x, INT16 y, INT16 p_facing_, UINT8 offset_y_) BANKED;
@@ -62,74 +66,71 @@ extern unsigned int x_checkpoint, y_checkpoint;
 
 //Funciones extra
 
-void UpdateHudLife() {
+void UpdateHudLife(void) {
 	for (INT8 i = 0; i < PLAYER_ENERGY_MAX; ++i)
 		UPDATE_HUD_TILE(0 + i, 0, i < energy ? 30 : 29);
 	
 	if (has_key > 0) UPDATE_HUD_TILE(10, 0, 27);
 }
 
-void UpdateHudBombs() {
+void UpdateHudBombs(void) {
 	for (UINT8 i = 0; i < MAX_BOMBS; ++i)
 		UPDATE_HUD_TILE(19 - i, 0, i < bombas ? 31 : 28);
 }
 
-void check_2_points() {
+void check_2_points(void) {
 	pt1 = GetScrollTile(cx1>>3, cy1>>3);
 	pt2 = GetScrollTile(cx2>>3, cy2>>3);
 }
 
-void pausa(unsigned int time) BANKED{
-	
+void pausa(unsigned int time) BANKED{	
 	for (UINT8 j = 0; j < time; j++){
-			
-			__asm
-			halt
-			halt
-			halt
-			halt
-			__endasm;
-
-		}
+		vsync();		
+		vsync();		
+		vsync();		
+		vsync();		
+	}
 		
 }
 
-void loss_energy(){
-	
+void loss_energy(void) {	
+	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
+
 	PlayFx(CHANNEL_1, 8, 0x3b, 0x48, 0xb2, 0x17, 0x84);
 	energy--;
 	UpdateHudLife();
 	
 	if (energy < 1) {
-		THIS->tocado = 1;
+		data->common.tocado = 1;
 		vidas --;
 		pausa(30);
 		PlayMusic(muerte, 0);
-		THIS->estado = 4;
+		data->common.estado = 4;
 		scroll_target = 0; //Quito el scroll al player
 		p_vy = jump_inc; //rebote al morir
-		THIS->contador_tiempo = 180;
+		data->common.contador_tiempo = 180;
 	}else {
 	
-		THIS->tocado = 70;
-		THIS->estado = 3;
+		data->common.tocado = 70;
+		data->common.estado = 3;
 		
 	}
 }
 
-void rebote_tocado(){
+void rebote_tocado(void) {
 	//rebote al recibir golpe
 	p_vy = jump_inc>>1; 
 	p_vx = -p_vx;
 }
 
-void animate_player(){
+void animate_player(void) {
+	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 	
-	switch (THIS->estado) {
+	switch (data->common.estado) {
 		
 		case 0:
 		
-			if (THIS->posee){
+			if (data->common.posee){
 				//Walk / Idle
 				if (p_vx != 0)
 					SetSpriteAnim(THIS, anim_player_walk, 12u);
@@ -146,7 +147,7 @@ void animate_player(){
 		case 1:
 		case 3:
 		
-			if (THIS->tocado){
+			if (data->common.tocado){
 				//Parpadeando THIS->tocado
 				if (disparando)
 					SetSpriteAnim(THIS, anim_player_tocado2, 30u);
@@ -168,13 +169,14 @@ void animate_player(){
 	}
 }
 
-void check_sprites_collisions() {
+void check_sprites_collisions(void) {
 	
 	UINT8 i;
 	Sprite* spr;
 	platform_vy = 0;
 	SPRITEMANAGER_ITERATE(i, spr) {
-		if (spr->estado < 99){
+		COMMON_FIELDS_T* idata = (COMMON_FIELDS_T*)spr->custom_data;
+		if (idata->estado < 99){
 		// if (THIS->estado < 4){
 			if(CheckCollision(THIS, spr)) {
 				
@@ -203,14 +205,14 @@ void check_sprites_collisions() {
 					
 					case SpriteRompible:
 					case SpriteAntorcha:
-						if (THIS->estado < 4){
+						if (idata->estado < 4){
 							rebote_tocado();
 						}
 					case SpriteEnemyProyectile:
-						if (THIS->tocado == 0){
+						if (idata->tocado == 0){
 							loss_energy();
 						}
-						spr->estado = 2;
+						idata->estado = 2;
 					break;
 					
 					case SpriteEnemigo1:
@@ -221,7 +223,7 @@ void check_sprites_collisions() {
 					case SpriteCojon:
 					case SpritePajaro:
 					case SpriteTopo:
-						if (THIS->estado < 2){ //estados 0 y 1
+						if (idata->estado < 2){ //estados 0 y 1
 							rebote_tocado();
 							loss_energy();
 						}
@@ -230,7 +232,7 @@ void check_sprites_collisions() {
 					case SpritePlataforma:
 			
 							if (THIS->y >= spr->y - 25 && THIS->y < spr->y - 16){
-								platform_vy = spr->vy;
+								platform_vy = idata->vy;
 								THIS->y = spr->y - 21;
 								if (platform_vy < 0) THIS->y --;
 								p_y = (UINT32)(THIS->y) << 6;
@@ -241,8 +243,8 @@ void check_sprites_collisions() {
 					
 					case SpriteCraneo:
 			
-							if (THIS->estado == 4){
-								THIS->tocado = 0;
+							if (idata->estado == 4){
+								idata->tocado = 0;
 							}
 											
 					break;
@@ -267,7 +269,7 @@ void check_sprites_collisions() {
 	
 }
 
-void add_friction(){
+void add_friction(void) {
 	
 	if (p_vx > 0) 
 		p_vx -= X_FRICTION;
@@ -276,7 +278,7 @@ void add_friction(){
 	
 }
 
-void add_gravity(){
+void add_gravity(void) {
 	
 	//gravity
 	p_vy += gravity;
@@ -288,7 +290,7 @@ void add_gravity(){
 }
 
 
-void check_gravity_axis(){
+void check_gravity_axis(void) {
 	
 	if ((INT16)THIS->y > (INT16)y_eje_actual) { 
 		gravity = -GRAVITY;
@@ -304,11 +306,12 @@ void check_gravity_axis(){
 
 //Funciones basicas
 
-void START() {
+void START(void) {
+	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 	
 	check_gravity_axis();
 	
-	THIS->posee = 1;
+	data->common.posee = 1;
 	p_vy = p_vx = 0;
 	bombas = 0;
 	p_facing = 1;
@@ -323,25 +326,26 @@ void START() {
 	
 	energy = PLAYER_ENERGY_MAX;
 	
-	THIS->estado = 0;
-	THIS->tocado = 0;
+	data->common.estado = 0;
+	data->common.tocado = 0;
 	
 	UpdateHudLife();
 }
 
-void UPDATE() {
+void UPDATE(void) {
+	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 	
 	half_life = !half_life;
 	frame_counter ++;
 	
-	if (THIS->estado < 4){ //TODO EL CONTROL Y MOVIMIENTOS SE ANULAN EN ESTADO 4 (MUERTE)
+	if (data->common.estado < 4){ //TODO EL CONTROL Y MOVIMIENTOS SE ANULAN EN ESTADO 4 (MUERTE)
 
 			//VERTICAL MOVEMENT 
 			
 			add_gravity();
 			
 			//Player Jump
-			if (THIS->posee) {
+			if (data->common.posee) {
 				if (disparando == 0){
 						if(KEY_TICKED(J_A)) {
 						p_vy = jump_inc; 
@@ -360,10 +364,10 @@ void UPDATE() {
 			p_y += p_vy;
 			THIS->y = (p_y >> 6);
 
-			THIS->posee = 0;
+			data->common.posee = 0;
 			
 			if (platform_vy != 0){
-				THIS->posee = 1;
+				data->common.posee = 1;
 			}
 			
 			if (p_vy > 0){
@@ -372,7 +376,7 @@ void UPDATE() {
 				check_2_points();	
 				if (pt1 < MAX_TILE_TRASPASABLE || pt2 < MAX_TILE_TRASPASABLE) {
 					if (bocabajo == 0){
-						THIS->posee = 1;
+						data->common.posee = 1;
 						THIS->y &= 0xFFF8;
 						p_y = (UINT32)(THIS->y) << 6;
 					}
@@ -392,7 +396,7 @@ void UPDATE() {
 				check_2_points();
 				if (pt1 < MAX_TILE_SOLIDO || pt2 < MAX_TILE_SOLIDO) {
 					if (bocabajo == 1){
-						THIS->posee = 1;
+						data->common.posee = 1;
 						THIS->y += 4;
 						THIS->y &= 0xFFF8;
 						p_y = (UINT32)(THIS->y) << 6;
@@ -474,7 +478,7 @@ void UPDATE() {
 					
 						energy = 1;
 						loss_energy();
-						THIS->estado = 4;
+						data->common.estado = 4;
 					}
 				}
 			}
@@ -508,11 +512,11 @@ void UPDATE() {
 			}else
 			
 			//Lanzar craneo
-			if (THIS->estado != 3){
+			if (data->common.estado != 3){
 					
-					if(KEY_TICKED(J_B) && THIS->estado == 0) {
+					if(KEY_TICKED(J_B) && data->common.estado == 0) {
 						// p_vx = 0;
-						THIS->estado = 1; //estado Disparando cabezas
+						data->common.estado = 1; //estado Disparando cabezas
 						disparando = 1;
 						CreateCraneo(THIS->x , THIS->y-2, p_facing, bocabajo<<3);
 					}
@@ -520,10 +524,10 @@ void UPDATE() {
 			}
 
 
-			if (THIS->tocado){
-				if (THIS->estado < 4){
-					THIS->tocado --;
-					if (THIS->tocado == 0) THIS->estado = 0;
+			if (data->common.tocado){
+				if (data->common.estado < 4){
+					data->common.tocado --;
+					if (data->common.tocado == 0) data->common.estado = 0;
 					
 				}
 			}
@@ -552,8 +556,7 @@ void UPDATE() {
 						
 						PlayMusic(stageclear, 0);
 						pausa(240);
-						WY_REG = 144;
-						SHOW_WIN;
+						SetWindowY(144);
 					}
 				
 				}
@@ -573,7 +576,7 @@ void UPDATE() {
 			THIS->y = (p_y >> 6);
 			
 			
-			THIS->tocado = 0;
+			data->common.tocado = 0;
 	
 	}
 	
@@ -587,20 +590,20 @@ void UPDATE() {
 	DPRINT_POS(0, 0);
 	DPrintf("x:%d y:%d  ", p_vy, pt2);
 	
-	
+
+#ifndef MASTERSYSTEM
 	if(KEY_TICKED(J_START)) {
 		PlayFx(CHANNEL_1, 8, 0x74, 0x0a, 0xf7, 0x72, 0x86);
 		pausa(50);
 		waitpad(J_START);
 		PlayFx(CHANNEL_1, 8, 0x74, 0x0a, 0xf7, 0x72, 0x86);
 	}
+#endif
 	
 }
 
-void DESTROY() {
-	
-	WY_REG = 144;
-	SHOW_WIN;
+void DESTROY(void) {		
+	SetWindowY(144);
 	if (vidas > 0){
 		SetState(StateTituloNivel);
 	}else{

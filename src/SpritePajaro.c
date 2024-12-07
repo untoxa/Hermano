@@ -15,20 +15,22 @@ void CreateEnemyProyectile(UINT16 x, UINT16 y, INT8 vx_, INT16 vy_, INT8 gravity
 
 extern unsigned char half_life;
 typedef struct {
-	INT8 vx;
+	COMMON_FIELDS_T common;
+	INT8   vx;
 	UINT16 x_scroll_base;
-	UINT8 disparado;
+	UINT8  disparado;
 } CUSTOM_DATA;
+CHECK_CUSTOM_DATA_SIZE(CUSTOM_DATA);
 
-void START() { 
+void START(void) { 
+	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 
 	THIS->attr_add |= S_PALETTE;
 
-	THIS->estado = 1; //Necesario para las colisiones
+	data->common.estado = 1; //Necesario para las colisiones
 	THIS->lim_x = 16;
 	THIS->lim_y = 0;
 	
-	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 	data->x_scroll_base = scroll_x;
 	if (THIS->x > scroll_x){
 		data->vx = -1;
@@ -41,20 +43,19 @@ void START() {
 	data->disparado = 0;
 	
 	THIS->y -= 4;
-	THIS->life = 0;
-	
+	data->common.life = 0;	
 }
 
-void UPDATE() {
+void UPDATE(void) {
 	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 	
-	switch (THIS->estado) {
+	switch (data->common.estado) {
 		
 		case 1:
 		
 			//Tocado y muere
-			if (THIS->tocado > 0) {
-				THIS->estado = 99;
+			if (data->common.tocado > 0) {
+				data->common.estado = 99;
 			}
 			
 			if (data->disparado == 0){
@@ -74,9 +75,9 @@ void UPDATE() {
 		break;
 		
 		default:
-			if (THIS->estado == 99){
+			if (data->common.estado == 99){
 				SpriteManagerAdd(SpriteSoul, THIS->x + 4, THIS->y + 4);
-				THIS->estado ++;
+				data->common.estado ++;
 				
 			}
 			THIS->visible = 0; //Hacerlo invisible
@@ -84,8 +85,5 @@ void UPDATE() {
 	}
 }
 
-void DESTROY() { 
-
-	
-
+void DESTROY(void) { 
 }

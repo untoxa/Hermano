@@ -17,16 +17,15 @@ extern signed int x_player;
 extern UINT8 delta_time;
 
 typedef struct {
-	INT8 vx;
-	INT16 vy;
-	INT8 gravedad;
+	COMMON_FIELDS_T common;
+	INT8   vx;
+	INT8   gravedad;
 	UINT16 cojon_y;
 	UINT16 init_y;
 } CUSTOM_DATA;
+CHECK_CUSTOM_DATA_SIZE(CUSTOM_DATA);
 
-
-void check_direction(){
-	
+void check_direction(void) {
 	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 	
 	if (THIS->x > x_player){
@@ -39,20 +38,20 @@ void check_direction(){
 	
 }
 
-void START() { 
-	THIS->estado = 3;
+void START(void) { 
 	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
+	data->common.estado = 3;
 	
 	check_direction();
 	
 	THIS->y -= 4;
 	
-	data->vy = 0;
+	data->common.vy = 0;
 	data->gravedad = 8;
 	data->cojon_y = THIS->y << 6;
 	data->init_y = data->cojon_y;
-	THIS->contador_tiempo = 15;
-	THIS->life = 2;
+	data->common.contador_tiempo = 15;
+	data->common.life = 2;
 	
 	THIS->lim_x = 64;
 	THIS->lim_y = 0;
@@ -60,36 +59,36 @@ void START() {
 	
 }
 
-void UPDATE() {
+void UPDATE(void) {
 	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 	
-	THIS->contador_tiempo --;
+	data->common.contador_tiempo --;
 	
-	if (THIS->tocado > 0) {
-		if (THIS->tocado == 10){
+	if (data->common.tocado > 0) {
+		if (data->common.tocado == 10){
 		
-			THIS->life --;
-			if (THIS->life > 200){
-				THIS->estado = 99;
+			data->common.life --;
+			if (data->common.life > 200){
+				data->common.estado = 99;
 			}
 			
 		}
 		
-		THIS->tocado --;
+		data->common.tocado --;
 		THIS->visible = half_life;
-		if (THIS->tocado == 0) THIS->visible = 1u;
+		if (data->common.tocado == 0) THIS->visible = 1u;
 	}
 	
 	
-	switch(THIS->estado) {
+	switch(data->common.estado) {
 		
 		case 1:
 		
 			SetSpriteAnim(THIS, anim_cojon_quietor, 30u);
 			
-			if (THIS->contador_tiempo == 0){
-				THIS->contador_tiempo = 10;
-				THIS->estado = 2;
+			if (data->common.contador_tiempo == 0){
+				data->common.contador_tiempo = 10;
+				data->common.estado = 2;
 				
 			}
 			
@@ -97,26 +96,26 @@ void UPDATE() {
 		
 		case 2:
 			SetSpriteAnim(THIS, anim_cojon_salta, 15u);
-			if (THIS->contador_tiempo == 0){
-				THIS->estado = 3;
-				data->vy = -150;
+			if (data->common.contador_tiempo == 0){
+				data->common.estado = 3;
+				data->common.vy = -150;
 			}
 		
 		break;
 		
 	    case 3:
 			SetSpriteAnim(THIS, anim_cojon_saltando, 30u);
-			data->vy += data->gravedad;
-			data->cojon_y += data->vy;
+			data->common.vy += data->gravedad;
+			data->cojon_y += data->common.vy;
 
 			if (half_life == 1) THIS->x += (INT16)data->vx << delta_time;
 			
 			//Colision con escenario
 			THIS->y = data->cojon_y >> 6;
-			if(data->vy > 0) {
+			if(data->common.vy > 0) {
 				if(GetScrollTile((THIS->x + 8)>> 3, (THIS->y + 20) >> 3) < MAX_TILE_TRASPASABLE) {
-					THIS->estado = 1; //estado parado
-					THIS->contador_tiempo = 30;
+					data->common.estado = 1; //estado parado
+					data->common.contador_tiempo = 30;
 					// PlayFx(CHANNEL_4, 10, 0x38, 0xc2, 0x50, 0x80);
 					THIS->y &= 0xFFFC;
 					data->cojon_y = THIS->y << 6;
@@ -127,9 +126,9 @@ void UPDATE() {
 		 
 		default:
 			
-			if (THIS->estado == 99){
+			if (data->common.estado == 99){
 				SpriteManagerAdd(SpriteSoul, THIS->x + 4, THIS->y + 4);
-				THIS->estado ++;
+				data->common.estado ++;
 				
 			}
 			THIS->visible = 0; //Hacerlo invisible
@@ -140,6 +139,5 @@ void UPDATE() {
 	
 }
 
-void DESTROY() { 
-	
+void DESTROY(void) { 	
 }

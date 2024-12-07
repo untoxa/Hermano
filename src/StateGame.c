@@ -68,17 +68,18 @@ const struct MapInfoBanked* mundos[] = {mundo0, mundo1, mundo2, mundo3};
 
 
 
-void START() {
+void START(void) {
 	desplazamiento_y_camara = 0;
 	y_eje_actual = y_eje_inframundo[level + (mundo_actual<<1)]; //Guardamos valor del eje de cambio de gravedad
 	
 	//Iniciar el HUD
 	INIT_HUD(hud);
 	
+#ifdef NINTENDO
 	//Change Sprite Palettes
 	OBP0_REG = PAL_DEF(1,0,2,3); //Cambia la paleta 0
 	OBP1_REG = PAL_DEF(2,0,1,3); //Cambia la paleta 1
-	
+#endif	
 
 	const struct MapInfoBanked* niveles = mundos[mundo_actual];
 	const struct MapInfoBanked* fase = &niveles[level];
@@ -128,6 +129,6 @@ void START() {
 		
 }
 
-void UPDATE() {
+void UPDATE(void) {
 	
 }

@@ -21,7 +21,7 @@ unsigned char tile_num_1 [] = {97, 182, 116, 0}; //Tile donde empiezan los núme
 unsigned char tile_negro [] = {0, 177, 55, 0}; //Tile donde empiezan los números
 unsigned char pos_y_titulo [] = {41, 30, 41, 8}; //Coordenada Y del sprite para el título del nivel
 	
-void print_texts(){
+void print_texts(void){
 	UINT8 tile_n;
 	tile_n = tile_num_1[mundo_actual];
 	if (parpadeo == 0) {
@@ -43,19 +43,13 @@ void print_texts(){
 
 }
 
-
-
-void START() {
-	
-	
-	
+void START(void) {
+#ifdef NINTENDO
 	//Change Sprite Palettes
 	OBP0_REG = PAL_DEF(0,0,3,2); //Cambia la paleta 0
-	
+#endif	
+
 	switch (mundo_actual){
-		
-		
-				
 		case 0:  
 		InitScroll(BANK(titulo_cementerio), &titulo_cementerio, 0, 0);
 		break;
@@ -71,7 +65,6 @@ void START() {
 		case 3: 
 		InitScroll(BANK(entra_piramide), &entra_piramide, 0, 0);
 		break;	
-	
 	}
 
 
@@ -86,13 +79,7 @@ void START() {
 
 }
 
-
-
-
-
-void UPDATE() {
-
-	
+void UPDATE(void) {	
 	if (mundo_actual < 3) print_texts();
 	
 	

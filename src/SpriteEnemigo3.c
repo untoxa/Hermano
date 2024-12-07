@@ -10,26 +10,29 @@
 //Animations
 const UINT8 anim_enem3[] = {4, 0, 1, 2, 1};
 
-void START() { 
+typedef struct {
+	COMMON_FIELDS_T common;
+} CUSTOM_DATA;
+CHECK_CUSTOM_DATA_SIZE(CUSTOM_DATA);
 
+void START(void) { 
+	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 	SetSpriteAnim(THIS, anim_enem3, 12u);
-	THIS->estado = 1;
-
+	data->common.estado = 1;
 }
 
-void UPDATE() {
-
+void UPDATE(void) {
+	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 	//Tocado y muere
-	if (THIS->tocado > 0) {
-		THIS->estado = 99;
+	if (data->common.tocado > 0) {
+		data->common.estado = 99;
 	}
 	
-	if(THIS->estado != 1) {
+	if(data->common.estado != 1) {
 		SpriteManagerRemove(THIS_IDX);
 		return;
 	}
 }
 
-void DESTROY() { 
-	
+void DESTROY(void) { 	
 }

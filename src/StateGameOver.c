@@ -11,23 +11,15 @@ DECLARE_MUSIC(gameover);
 extern UINT16 tiempo;
 
 
-void START() {
-	
+void START(void) {
 	InitScroll(BANK(gameover_screen), &gameover_screen, 0, 0);
 
 	PlayMusic(gameover, 0);
 	tiempo = 500;
-
 }
 
-
-
-
-
-void UPDATE() {
+void UPDATE(void) {
 	tiempo --;
 			
-	if (tiempo == 0) SetState(StateMenu);
-		
-		
+	if (tiempo == 0) SetState(StateMenu);		
 }

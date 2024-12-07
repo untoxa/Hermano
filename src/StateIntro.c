@@ -24,16 +24,17 @@ UINT16 next_time;
 UINT16 tiempo_cambios_pantalla[] = {350,320,460,360,340,300,0};
 void pausa(unsigned int time) BANKED;
 
-void START() {
+void START(void) {
+	MAP_OVERLAP_SPR;
 	
 	//Init SFX
-	NR52_REG = 0x80; //Enables sound, you should always setup this first
-	NR51_REG = 0xFF; //Enables all channels (left and right)
-	NR50_REG = 0xF7; //Max volume
+	INIT_SOUND();
 	
+#ifdef NINTENDO
 	//Change Sprite Palettes
 	OBP0_REG = PAL_DEF(0,1,3,2); //Cambia la paleta 0
 	OBP1_REG = PAL_DEF(1,0,3,2); //Cambia la paleta 1
+#endif
 	
 	InitScroll(BANK(zgb_logo), &zgb_logo, 0, 0);
 
@@ -45,7 +46,7 @@ void START() {
 	temporizador = 0;
 }
 
-void UPDATE() {
+void UPDATE(void) {
 	temporizador++;
 	
 	
@@ -94,7 +95,9 @@ void UPDATE() {
 		}
 		
 		if (pantalla < 7){ 
+#ifdef NINTENDO
 			BGP_REG = OBP0_REG = OBP1_REG = PAL_DEF(0, 1, 2, 3);
+#endif
 			DISPLAY_ON;
 			FadeOut();
 		}

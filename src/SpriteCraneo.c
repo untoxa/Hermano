@@ -16,12 +16,13 @@ unsigned char offset_y, craneo_usado;
 const UINT8 anim_rotando[] = {4, 0, 1, 2, 3};
 unsigned char probabilidad;
 typedef struct {
+	COMMON_FIELDS_T common;
 	INT16 vx;
 	INT16 init_x;
 	INT16 limit_x;
 	INT16 init_vx;
-
 } CUSTOM_DATA;
+CHECK_CUSTOM_DATA_SIZE(CUSTOM_DATA);
 
 void CreateCraneo(UINT16 x, INT16 y, INT16 p_facing_, UINT8 offset_y_ ) BANKED {
 	Sprite* spr = SpriteManagerAdd(SpriteCraneo, x, y);
@@ -33,43 +34,44 @@ void CreateCraneo(UINT16 x, INT16 y, INT16 p_facing_, UINT8 offset_y_ ) BANKED {
 	PlayFx(CHANNEL_1, 5, 0x3d, 0x4a, 0x6d, 0x99, 0xc6);
 }
 
-void START() { 
-	THIS->estado = 1; //Necesario para las colisiones
+void START(void) { 
+	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
+	data->common.estado = 1; //Necesario para las colisiones
 	THIS->lim_x = 100;
 	THIS->lim_y = 100;
 	craneo_usado = 0;
 }
 
-void UPDATE() {
+void UPDATE(void) {
 	UINT8 i;
 	Sprite* spr;
 	
 	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 
-	if(THIS->estado == 1) {
+	if(data->common.estado == 1) {
 		SetSpriteAnim(THIS, anim_rotando, 30u);
-		
+
 		THIS->x += data->vx;
 		if (THIS->x == data->limit_x) data->vx = -data->vx;
-		
+
 		if (half_life == 1){ // Solo frames impares
-		
+
 			SPRITEMANAGER_ITERATE(i, spr) {
-				
+
+				COMMON_FIELDS_T* idata = (COMMON_FIELDS_T*)spr->custom_data;
 				if(CheckCollision(THIS, spr)) {
 					switch(spr->type) {
 						
 						case SpritePlayer:
 							if (DISTANCE(THIS->x, spr->x) < 10) {
 								if (data->vx != data->init_vx) {
-									THIS->estado = 2; 
+									data->common.estado = 2; 
 									disparando = 0;
-									if (spr->estado == 1) spr->estado = 0; // Si el player está disparando vuelve al estado 0 (si está tocado, no).
+									if (idata->estado == 1) idata->estado = 0; // Si el player está disparando vuelve al estado 0 (si está tocado, no).
 								}
 							}
 						break;
-						
-					
+
 						case SpriteEnemigo1:
 						case SpriteEnemigo2:
 						case SpriteZombie:
@@ -79,11 +81,11 @@ void UPDATE() {
 						case SpriteTopo:
 						case SpriteAntorcha:
 							if (craneo_usado == 0){
-								if (spr->estado < 99){
+								if (idata->estado < 99){
 									craneo_usado = 1;
-									spr->life --;
-									if (spr->life > 200){
-										spr->estado = 99;
+									idata->life --;
+									if (idata->life > 200){
+										idata->estado = 99;
 										
 										// SALEN ITEMS
 										probabilidad = 160 - (bombas<<5);
@@ -101,7 +103,7 @@ void UPDATE() {
 										}
 										// END SALEN ITEMS
 									}
-									spr->tocado = 10;
+									idata->tocado = 10;
 									if (data->vx == data->init_vx){ //Solo colisiona en la ida
 										data->vx = -data->vx; //Cambio direccion del craneo
 									}
@@ -125,6 +127,5 @@ void UPDATE() {
 	THIS->y = y_player + offset_y;
 }
 
-void DESTROY() { 
-	
+void DESTROY(void) { 	
 }

@@ -20,8 +20,7 @@ unsigned int y_eje_actual;
 
 UINT8 next_state = StateIntro;
 
-UINT8 GetTileReplacement(UINT8* tile_ptr, UINT8* tile) {
-	
+UINT8 GetTileReplacement(UINT8* tile_ptr, UINT8* tile) {	
 	if(current_state == StateGame) {
 		if(U_LESS_THAN(255 - (UINT16)*tile_ptr, N_SPRITE_TYPES)) {
 			*tile = *(tile_ptr+1);
@@ -30,7 +29,6 @@ UINT8 GetTileReplacement(UINT8* tile_ptr, UINT8* tile) {
 
 		*tile = *tile_ptr;
 	}
-	return 255u;
-	
+	return 255u;	
 }
 

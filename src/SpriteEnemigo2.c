@@ -14,36 +14,35 @@ extern unsigned int y_eje_actual;
 extern UINT8 delta_time;
 
 typedef struct {
-	INT8 vx;
-	INT16 vy, y_abs;
-	INT8 aceleracion_v;
-	INT16 init_y;
+	COMMON_FIELDS_T common;
+	INT8   vx;
+	INT16  y_abs;
+	INT8   aceleracion_v;
+	INT16  init_y;
 } CUSTOM_DATA;
+CHECK_CUSTOM_DATA_SIZE(CUSTOM_DATA);
 
-void START() { 
-	THIS->estado = 1; //Necesario para las colisiones
+void START(void) { 
+	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
+	data->common.estado = 1; //Necesario para las colisiones
 	// THIS->lim_x = 64;
 	// THIS->lim_y = 64;
 	
-	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 	if (THIS->x > scroll_x) data->vx = -1; else data->vx = 1;
 	data->aceleracion_v = 8;
 	data->init_y = THIS->y;
 
-	THIS->life = 0;
-	
-
-	
+	data->common.life = 0;	
 }
 
-void UPDATE() {
+void UPDATE(void) {
 	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 	
-	if(THIS->estado == 1) {
+	if(data->common.estado == 1) {
 		
 		//Tocado y muere
-		if (THIS->tocado > 0) {
-			THIS->estado = 99;
+		if (data->common.tocado > 0) {
+			data->common.estado = 99;
 		}
 		
 		//Horizontal movement
@@ -61,14 +60,14 @@ void UPDATE() {
 		if (THIS->y < (data->init_y - 24)) data->aceleracion_v = 8;
 		if (THIS->y > (data->init_y + 24)) data->aceleracion_v = -8;
 		
-		data->vy += data->aceleracion_v;
+		data->common.vy += data->aceleracion_v;
 		
-		if (data->vy > 128) data->vy = 128;
-		if (data->vy < -128) data->vy = -128;
+		if (data->common.vy > 128) data->common.vy = 128;
+		if (data->common.vy < -128) data->common.vy = -128;
 		
 		if (half_life == 0) THIS->x += data->vx << delta_time;
 		
-		data->y_abs += data->vy << delta_time;
+		data->y_abs += data->common.vy << delta_time;
 
 		THIS->y = data->y_abs >> 6;
 		
@@ -76,9 +75,9 @@ void UPDATE() {
 		
 	} else {
 		
-		if (THIS->estado == 99){
+		if (data->common.estado == 99){
 			SpriteManagerAdd(SpriteSoul, THIS->x + 4, THIS->y + 4);
-			THIS->estado ++;
+			data->common.estado ++;
 			
 		}
 		THIS->visible = 0; //Hacerlo invisible
@@ -86,6 +85,5 @@ void UPDATE() {
 	}
 }
 
-void DESTROY() { 
-
+void DESTROY(void) { 
 }

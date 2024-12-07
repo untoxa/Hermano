@@ -11,20 +11,21 @@ extern UINT8 delta_time;
 extern unsigned char half_life;
 
 typedef struct {
-	INT8 vx;
-	INT8 offset_x;
-	INT16 limite_xi, limite_xd;
+	COMMON_FIELDS_T common;
+	INT8   vx;
+	INT8   offset_x;
+	INT16  limite_xi, limite_xd;
 } CUSTOM_DATA;
+CHECK_CUSTOM_DATA_SIZE(CUSTOM_DATA);
 
-void START() { 
-
+void START(void) { 
+	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 	THIS->attr_add |= S_PALETTE;
 
-	THIS->estado = 1; //Necesario para las colisiones
+	data->common.estado = 1; //Necesario para las colisiones
 	THIS->lim_x = 32;
 	THIS->lim_y = 0;
 	
-	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 	if (THIS->x > scroll_x) data->vx = -1; else data->vx = 1;
 	
 	data->limite_xi = THIS->x - 90;
@@ -33,14 +34,14 @@ void START() {
 	THIS->y -= 2;
 }
 
-void UPDATE() {
+void UPDATE(void) {
 	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 	
-	if(THIS->estado == 1) {
+	if(data->common.estado == 1) {
 		
 		//Tocado y muere
-		if (THIS->tocado > 0) {
-			THIS->estado = 99;
+		if (data->common.tocado > 0) {
+			data->common.estado = 99;
 		}
 		
 		if (data->vx < 0){
@@ -72,15 +73,12 @@ void UPDATE() {
 		
 	} else {
 		THIS->visible = 0;
-		if (THIS->estado == 99){
+		if (data->common.estado == 99){
 			SpriteManagerAdd(SpriteSoul, THIS->x + 4, THIS->y + 4);
-			THIS->estado ++;
+			data->common.estado ++;
 		}
 	}
 }
 
-void DESTROY() { 
-
-	
-
+void DESTROY(void) { 
 }

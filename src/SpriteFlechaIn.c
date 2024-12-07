@@ -6,23 +6,28 @@
 
 extern unsigned char has_key;
 
-void START() { 
+typedef struct {
+	COMMON_FIELDS_T common;
+} CUSTOM_DATA;
+CHECK_CUSTOM_DATA_SIZE(CUSTOM_DATA);
+
+void START(void) { 
 	if (has_key == 0) {
-			SpriteManagerRemove(THIS_IDX);
-			return;
-		}
+		SpriteManagerRemove(THIS_IDX);
+		return;
+	}
 }
 
-void UPDATE() {
+void UPDATE(void) {
+	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;	
+	data->common.contador_tiempo++;
 	
-	THIS->contador_tiempo++;
-	
-	if (THIS->contador_tiempo > 20){
+	if (data->common.contador_tiempo > 20){
 		THIS->visible = 0;
-		if (THIS->contador_tiempo > 40) THIS->contador_tiempo = 0;
+		if (data->common.contador_tiempo > 40) data->common.contador_tiempo = 0;
 	}else THIS->visible = 1;
 	
 }
 
-void DESTROY() { 
+void DESTROY(void) { 
 }

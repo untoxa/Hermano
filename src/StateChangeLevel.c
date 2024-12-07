@@ -4,16 +4,9 @@
 
 extern unsigned char level, mundo_actual;
 
-void START() {
-	
-
-	
+void START(void) {
 }
 
-
-
-
-
-void UPDATE() {
+void UPDATE(void) {
 	SetState(StateGame);
 }
