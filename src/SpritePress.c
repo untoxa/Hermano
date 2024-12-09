@@ -12,7 +12,7 @@ CHECK_CUSTOM_DATA_SIZE(CUSTOM_DATA);
 void START(void) { 
 	memset((CUSTOM_DATA*)(THIS->custom_data), 0, CUSTOM_DATA_SIZE);
 
-	// THIS->attr_add |= S_PALETTE;
+	THIS->attr_add |= S_PALETTE;
 	THIS->lim_y = 10;
 	SetFrame(THIS, 0);
 }
