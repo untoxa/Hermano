@@ -13,7 +13,7 @@ unsigned char offset_y, craneo_usado;
 
 
 //Animations
-const UINT8 anim_rotando[] = {4, 0, 1, 2, 3};
+const UINT8 anim_rotando[] = VECTOR(0, 1, 2, 3);
 unsigned char probabilidad;
 typedef struct {
 	COMMON_FIELDS_T common;

@@ -8,9 +8,9 @@
 
 
 //Animations
-const UINT8 anim_cojon_quietor[] = {1, 2};
-const UINT8 anim_cojon_saltando[] = {1, 3};
-const UINT8 anim_cojon_salta[] = {2, 1, 0};
+const UINT8 anim_cojon_quietor[]  = VECTOR(2);
+const UINT8 anim_cojon_saltando[] = VECTOR(3);
+const UINT8 anim_cojon_salta[]    = VECTOR(1, 0);
 extern unsigned char half_life;
 extern signed int x_player;
 

@@ -6,7 +6,7 @@
 #include "Scroll.h"
 
 //Animations
-const UINT8 anim_zombie_walk[] = {4, 0, 1, 2, 1};
+const UINT8 anim_zombie_walk[] = VECTOR(0, 1, 2, 1);
 extern UINT8 delta_time;
 extern unsigned char half_life;
 

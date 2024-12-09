@@ -8,7 +8,7 @@
 
 
 //Animations
-const UINT8 anim_explosion[] = {1, 1};
+const UINT8 anim_explosion[] = VECTOR(1);
 extern UINT8 delta_time;
 extern unsigned char bombas_disparadas;
 

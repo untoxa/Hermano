@@ -8,7 +8,7 @@
 // MANOS EN SUELO
 
 //Animations
-const UINT8 anim_enem3[] = {4, 0, 1, 2, 1};
+const UINT8 anim_enem3[] = VECTOR(0, 1, 2, 1);
 
 typedef struct {
 	COMMON_FIELDS_T common;

@@ -3,8 +3,9 @@
 
 #include "SpriteManager.h"
 #include "Sprite.h"
-const UINT8 anim_antorcha[] = {3, 0, 1, 2};
-// const UINT8 anim_apagada[] = {1, 3};
+
+const UINT8 anim_antorcha[] = VECTOR(0, 1, 2);
+// const UINT8 anim_apagada[] = VECTOR(3);
 
 typedef struct {
 	COMMON_FIELDS_T common;

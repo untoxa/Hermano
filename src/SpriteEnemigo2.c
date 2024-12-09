@@ -7,7 +7,7 @@
 #include "Math.h"
 
 //Animations
-const UINT8 anim_enem2_walk[] = {4, 0, 1, 2, 1};
+const UINT8 anim_enem2_walk[] = VECTOR(0, 1, 2, 1);
 
 extern unsigned char half_life;
 extern unsigned int y_eje_actual;

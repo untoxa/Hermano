@@ -3,7 +3,7 @@
 
 #include "SpriteManager.h"
 #include "Sprite.h"
-const UINT8 anim_pincho[] = {2, 0, 1};
+const UINT8 anim_pincho[] = VECTOR(0, 1);
 
 typedef struct {
 	COMMON_FIELDS_T common;

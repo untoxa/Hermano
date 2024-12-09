@@ -6,7 +6,7 @@
 #include "Scroll.h"
 
 //Animations
-const UINT8 anim_flying[] = {4, 0, 1, 2, 1};
+const UINT8 anim_flying[] = VECTOR(0, 1, 2, 1);
 
 extern UINT8 delta_time;
 extern unsigned int x_player;

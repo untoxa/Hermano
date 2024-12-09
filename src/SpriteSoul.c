@@ -6,7 +6,7 @@
 // #include "Scroll.h"
 
 //Animations
-const UINT8 anim_soul[] = {2, 0, 1};
+const UINT8 anim_soul[] = VECTOR(0, 1);
 extern UINT8 delta_time;
 
 typedef struct {

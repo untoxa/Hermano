@@ -44,14 +44,14 @@ unsigned char last_mirror_player, pausado;
 
 
 //Animations
-const UINT8 anim_player_walk[]       = {4, 0, 1, 2, 1, 0};
-const UINT8 anim_player_jump[]       = {1, 3};
-const UINT8 anim_player_quietor[]    = {12, 1,1,1,1,1,1,1,1,8,1,1,1};
-const UINT8 anim_player_tocado[]     = {2, 4, 5};
-const UINT8 anim_player_muerto[]     = {1, 4};
-const UINT8 anim_player_muerto2[]    = {1, 7};
-const UINT8 anim_player_tocado2[]    = {2, 7, 5}; // THIS->tocado cuando ha disparado la cabeza
-const UINT8 anim_player_disparando[] = {1, 6};
+const UINT8 anim_player_walk[]       = VECTOR(0, 1, 2, 1, 0);
+const UINT8 anim_player_jump[]       = VECTOR(3);
+const UINT8 anim_player_quietor[]    = VECTOR(1, 1, 1, 1, 1, 1, 1, 1, 8, 1, 1, 1);
+const UINT8 anim_player_tocado[]     = VECTOR(4, 5);
+const UINT8 anim_player_muerto[]     = VECTOR(4);
+const UINT8 anim_player_muerto2[]    = VECTOR(7);
+const UINT8 anim_player_tocado2[]    = VECTOR(7, 5); // THIS->tocado cuando ha disparado la cabeza
+const UINT8 anim_player_disparando[] = VECTOR(6);
 
 // DATOS NIVELES
 extern unsigned char level, mundo_actual, vidas, has_key, bombas_disparadas, vidaextra;

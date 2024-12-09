@@ -6,8 +6,8 @@
 #include "Scroll.h"
 
 //Animations
-const UINT8 anim_calabaza_walk[] = {3, 0, 1, 2};
-const UINT8 anim_calabaza_idle[] = {1, 3};
+const UINT8 anim_calabaza_walk[] = VECTOR(0, 1, 2);
+const UINT8 anim_calabaza_idle[] = VECTOR(3);
 extern UINT8 delta_time;
 void CreateEnemyProyectile(UINT16 x, UINT16 y, INT8 vx_, INT16 vy_, INT8 gravity_) BANKED;
 
