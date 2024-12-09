@@ -297,6 +297,16 @@ void check_gravity_axis(void) {
 	
 }
 
+#ifdef SEGA
+void reload_flipped_data(UINT8 sprite_type, UINT8 flip) NONBANKED {
+	UINT8 __save = CURRENT_BANK;
+	SWITCH_ROM(spriteDataBanks[sprite_type]);
+	set_sprite_data_flip(spriteIdxs[sprite_type], spriteDatas[sprite_type]->num_tiles, spriteDatas[sprite_type]->data, flip);
+
+	SWITCH_ROM(__save);
+}
+#endif
+
 //Funciones basicas
 
 void START(void) {
@@ -432,8 +442,16 @@ void UPDATE(void) {
 
 			}
 			
+
+#ifdef SEGA
+			if (THIS->mirror != last_mirror_player + bocabajo) {
+				SwapOAMs();
+				vsync();
+				reload_flipped_data(THIS->type, last_mirror_player + bocabajo);
+			}
+#endif			
 			THIS->mirror = last_mirror_player + bocabajo;
-			
+
 			//Horizontal collisions
 			if (p_vx < 0){
 				cx1 = THIS->x-1; cy1 = THIS->y + 2;
@@ -528,13 +546,12 @@ void UPDATE(void) {
 			}
 			
 			//Detect EXIT - puerta
-			if (has_key > 0){
-				
-				cx1 = THIS->x ; cy1 = THIS->y ;
-				cx2 = THIS->x+8 ; cy2 = THIS->y ;
-				check_2_points();
-				if (pt1 == 39 || pt2 == 39) { 
-					if(KEY_TICKED(J_UP)) { 
+			if (has_key > 0){				
+				if(KEY_TICKED(J_UP)) { 
+					cx1 = THIS->x ; cy1 = THIS->y ;
+					cx2 = THIS->x+8 ; cy2 = THIS->y ;
+					check_2_points();
+					if (pt1 == 39 || pt2 == 39) { 
 						has_key = 0;
 						level ++;
 						x_checkpoint = 0;
@@ -546,7 +563,7 @@ void UPDATE(void) {
 							// IR A FINAL SI PASAMOS TODOS LOS MUNDOS
 							
 							SetState(StateTituloNivel); 
-						}else SetState(StateGame); 
+						} else SetState(StateGame); 
 						
 						
 						PlayMusic(stageclear, 0);

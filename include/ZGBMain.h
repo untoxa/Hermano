@@ -33,32 +33,32 @@ STATE_DEF_END
 
 
 #define SPRITES \
-_SPRITE_DMG(SpriteBombaItem, bomba_item)\
-_SPRITE_DMG(SpriteRompible, rompibles)\
-_SPRITE_DMG(SpriteEnemigo1, parca)\
-_SPRITE_DMG(SpriteEnemigo2, murcielago)\
-_SPRITE_DMG(SpriteEnemigo3, mano)\
-_SPRITE_DMG(SpriteZombie, zombie)\
-_SPRITE_DMG(SpriteLlave, llave)\
-_SPRITE_DMG(SpriteCalabaza, calabaza)\
-_SPRITE_DMG(SpriteCojon, bola)\
-_SPRITE_DMG(SpriteFlechaIn, flecha_in)\
-_SPRITE_DMG(SpritePajaro, pajarraco)\
-_SPRITE_DMG(SpriteTopo, topo)\
-_SPRITE_DMG(SpritePlataforma, platform)\
-_SPRITE_DMG(Sprite1up, item_1up)\
-_SPRITE_DMG(SpriteAntorcha, antorcha)\
-_SPRITE_DMG(SpriteCorazonItem, corazon_item)\
-_SPRITE_DMG(SpritePlayer, calavera)\
-_SPRITE_DMG(SpriteCraneo, craneo)\
-_SPRITE_DMG(SpriteBomba, bomba)\
-_SPRITE_DMG(SpriteEnemyProyectile, enemy_bullet)\
-_SPRITE_DMG(SpritePress, press)\
-_SPRITE_DMG(SpriteOjillos, ojos)\
-_SPRITE_DMG(SpriteSoul, soul)\
-_SPRITE_DMG(SpriteTitulo, titulos)\
-_SPRITE_DMG(SpriteAutoScroll, enemy_bullet)\
-_SPRITE_DMG(SpriteAutoScrollCredits, enemy_bullet)\
+_SPRITE(SpriteBombaItem,         bomba_item,   FLIP_NONE)\
+_SPRITE(SpriteRompible,          rompibles,    FLIP_NONE)\
+_SPRITE(SpriteEnemigo1,          parca,        FLIP_X)\
+_SPRITE(SpriteEnemigo2,          murcielago,   FLIP_X)\
+_SPRITE(SpriteEnemigo3,          mano,         FLIP_NONE)\
+_SPRITE(SpriteZombie,            zombie,       FLIP_X)\
+_SPRITE(SpriteLlave,             llave,        FLIP_NONE)\
+_SPRITE(SpriteCalabaza,          calabaza,     FLIP_X)\
+_SPRITE(SpriteCojon,             bola,         FLIP_X)\
+_SPRITE(SpriteFlechaIn,          flecha_in,    FLIP_NONE)\
+_SPRITE(SpritePajaro,            pajarraco,    FLIP_X)\
+_SPRITE(SpriteTopo,              topo,         FLIP_X)\
+_SPRITE(SpritePlataforma,        platform,     FLIP_NONE)\
+_SPRITE(Sprite1up,               item_1up,     FLIP_NONE)\
+_SPRITE(SpriteAntorcha,          antorcha,     FLIP_NONE)\
+_SPRITE(SpriteCorazonItem,       corazon_item, FLIP_NONE)\
+_SPRITE(SpritePlayer,            calavera,     FLIP_NONE)\
+_SPRITE(SpriteCraneo,            craneo,       FLIP_NONE)\
+_SPRITE(SpriteBomba,             bomba,        FLIP_NONE)\
+_SPRITE(SpriteEnemyProyectile,   enemy_bullet, FLIP_NONE)\
+_SPRITE(SpritePress,             press,        FLIP_NONE)\
+_SPRITE(SpriteOjillos,           ojos,         FLIP_NONE)\
+_SPRITE(SpriteSoul,              soul,         FLIP_NONE)\
+_SPRITE(SpriteTitulo,            titulos,      FLIP_NONE)\
+_SPRITE(SpriteAutoScroll,        enemy_bullet, FLIP_NONE)\
+_SPRITE(SpriteAutoScrollCredits, enemy_bullet, FLIP_NONE)\
 SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"
