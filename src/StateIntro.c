@@ -22,7 +22,7 @@ UINT16 temporizador;
 UINT16 next_time;
 
 UINT16 tiempo_cambios_pantalla[] = {350,320,460,360,340,300,0};
-void pausa(unsigned int time) BANKED;
+void pausa(UINT16 time) BANKED;
 
 void START(void) {
 	MAP_OVERLAP_SPR;

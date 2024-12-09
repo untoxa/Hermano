@@ -20,15 +20,15 @@ CHECK_CUSTOM_DATA_SIZE(CUSTOM_DATA);
 void CreateBomb(UINT16 x, UINT16 y, INT8 vx_, INT16 vy_, INT8 gravity_) BANKED;
 void CreateCraneo(UINT16 x, INT16 y, INT16 p_facing_, UINT8 offset_y_) BANKED;
 
-#define PLAYER_ENERGY_MAX 5
-#define MAX_BOMBS 5
+#define PLAYER_ENERGY_MAX   5
+#define MAX_BOMBS           5
 
-#define X_SPEED_MAX	88
-#define X_SPEED_INC	12
-#define X_FRICTION	4
-#define GRAVITY	10
-#define Y_SPEED_MAX	220
-#define JUMP_INC	220
+#define X_SPEED_MAX         88
+#define X_SPEED_INC         12
+#define X_FRICTION          4
+#define GRAVITY             10
+#define Y_SPEED_MAX         220
+#define JUMP_INC            220
 
 //Player variables
 signed int aux1,aux2;
@@ -44,13 +44,13 @@ unsigned char last_mirror_player, pausado;
 
 
 //Animations
-const UINT8 anim_player_walk[] = {4, 0, 1, 2, 1, 0};
-const UINT8 anim_player_jump[] = {1, 3};
-const UINT8 anim_player_quietor[] = {12, 1,1,1,1,1,1,1,1,8,1,1,1};
-const UINT8 anim_player_tocado[] = {2, 4, 5};
-const UINT8 anim_player_muerto[] = {1, 4};
-const UINT8 anim_player_muerto2[] = {1, 7};
-const UINT8 anim_player_tocado2[] = {2, 7, 5}; // THIS->tocado cuando ha disparado la cabeza
+const UINT8 anim_player_walk[]       = {4, 0, 1, 2, 1, 0};
+const UINT8 anim_player_jump[]       = {1, 3};
+const UINT8 anim_player_quietor[]    = {12, 1,1,1,1,1,1,1,1,8,1,1,1};
+const UINT8 anim_player_tocado[]     = {2, 4, 5};
+const UINT8 anim_player_muerto[]     = {1, 4};
+const UINT8 anim_player_muerto2[]    = {1, 7};
+const UINT8 anim_player_tocado2[]    = {2, 7, 5}; // THIS->tocado cuando ha disparado la cabeza
 const UINT8 anim_player_disparando[] = {1, 6};
 
 // DATOS NIVELES
@@ -82,14 +82,8 @@ void check_2_points(void) {
 	pt2 = GetScrollTile(cx2>>3, cy2>>3);
 }
 
-void pausa(unsigned int time) BANKED{	
-	for (UINT8 j = 0; j < time; j++){
-		vsync();		
-		vsync();		
-		vsync();		
-		vsync();		
-	}
-		
+void pausa(UINT16 time) BANKED {
+	if (time) while (time--) vsync();	
 }
 
 void loss_energy(void) {	
