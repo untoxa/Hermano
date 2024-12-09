@@ -18,6 +18,8 @@ typedef struct {
 CHECK_CUSTOM_DATA_SIZE(CUSTOM_DATA);
 
 void START(void) { 
+	memset((CUSTOM_DATA*)(THIS->custom_data), 0, CUSTOM_DATA_SIZE);
+
 	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 	if (has_key > 0) {
 		SpriteManagerRemove(THIS_IDX);

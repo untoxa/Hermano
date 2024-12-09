@@ -15,6 +15,8 @@ typedef struct {
 CHECK_CUSTOM_DATA_SIZE(CUSTOM_DATA);
 
 void START(void) { 
+	memset((CUSTOM_DATA*)(THIS->custom_data), 0, CUSTOM_DATA_SIZE);
+
 	THIS->lim_x = 0;
 	THIS->lim_y = 0;
 

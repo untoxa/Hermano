@@ -35,6 +35,8 @@ void CreateCraneo(UINT16 x, INT16 y, INT16 p_facing_, UINT8 offset_y_ ) BANKED {
 }
 
 void START(void) { 
+	memset((CUSTOM_DATA*)(THIS->custom_data), 0, CUSTOM_DATA_SIZE);
+
 	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 	data->common.estado = 1; //Necesario para las colisiones
 	THIS->lim_x = 100;

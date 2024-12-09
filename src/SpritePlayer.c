@@ -4,7 +4,6 @@
 #include "Keys.h"
 #include "SpriteManager.h"
 
-#include "Print.h"
 #include "Sound.h"
 #include "Music.h"
 #include "Sprite.h"
@@ -307,6 +306,8 @@ void check_gravity_axis(void) {
 //Funciones basicas
 
 void START(void) {
+	memset((CUSTOM_DATA*)(THIS->custom_data), 0, CUSTOM_DATA_SIZE);
+
 	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 	
 	check_gravity_axis();
@@ -584,13 +585,7 @@ void UPDATE(void) {
 	animate_player();
 	x_player = THIS->x;
 	y_player = THIS->y;
-	
-	
-
-	DPRINT_POS(0, 0);
-	DPrintf("x:%d y:%d  ", p_vy, pt2);
-	
-
+		
 #ifndef MASTERSYSTEM
 	if(KEY_TICKED(J_START)) {
 		PlayFx(CHANNEL_1, 8, 0x74, 0x0a, 0xf7, 0x72, 0x86);

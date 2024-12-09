@@ -4,7 +4,7 @@
 #include "SpriteManager.h"
 #include "Sprite.h"
 #include "Scroll.h"
-// #include "Print.h"
+
 typedef struct {
 	COMMON_FIELDS_T common;
 	UINT32 x_scroll;
@@ -12,6 +12,8 @@ typedef struct {
 CHECK_CUSTOM_DATA_SIZE(CUSTOM_DATA);
 
 void START(void) { 
+	memset((CUSTOM_DATA*)(THIS->custom_data), 0, CUSTOM_DATA_SIZE);
+
 	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 
 	// THIS->estado = 1; //Necesario para las colisiones

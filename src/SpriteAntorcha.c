@@ -11,7 +11,9 @@ typedef struct {
 } CUSTOM_DATA;
 CHECK_CUSTOM_DATA_SIZE(CUSTOM_DATA);
 
-void START(void) { 
+void START(void) {
+	memset((CUSTOM_DATA*)(THIS->custom_data), 0, CUSTOM_DATA_SIZE);
+
 	((CUSTOM_DATA*)(THIS->custom_data))->common.estado = 1; //Necesario para las colisiones
 	((CUSTOM_DATA*)(THIS->custom_data))->common.life = 0;
 	THIS->lim_x = 64;

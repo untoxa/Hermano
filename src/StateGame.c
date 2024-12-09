@@ -5,7 +5,6 @@
 #include "SpriteManager.h"
 #include "Music.h"
 #include <Palette.h>
-#include "Print.h"
 
 extern signed char desplazamiento_y_camara;
 extern unsigned char level, has_key;
@@ -71,7 +70,7 @@ const struct MapInfoBanked* mundos[] = {mundo0, mundo1, mundo2, mundo3};
 void START(void) {
 	desplazamiento_y_camara = 0;
 	y_eje_actual = y_eje_inframundo[level + (mundo_actual<<1)]; //Guardamos valor del eje de cambio de gravedad
-	
+
 	//Iniciar el HUD
 	INIT_HUD(hud);
 	
@@ -95,23 +94,23 @@ void START(void) {
 	switch (mundo_actual){
 		
 		case 0:  
-		PlayMusic(cemetery, 1);
-		break;
+			PlayMusic(cemetery, 1);
+			break;
 		
 		case 1: 
-		PlayMusic(deadboy, 1);
-		break;
+			PlayMusic(deadboy, 1);
+			break;
 		
 		case 2: 
-		PlayMusic(selva, 1);
-		if (level == 0) autoscroll = 1;
-		break;	
-		
+			PlayMusic(selva, 1);
+			if (level == 0) autoscroll = 1;
+			break;	
+/*		
 		case 3: 
-		// PlayMusic(piramide_dentro, 1);
-		// if (level == 0) autoscroll = 1;
-		break;
-
+			PlayMusic(piramide_dentro, 1);
+			if (level == 0) autoscroll = 1;
+			break;
+*/
 	}
 	
 	if (autoscroll){
@@ -122,11 +121,7 @@ void START(void) {
 		scroll_target = SpriteManagerAdd(SpritePlayer, x_checkpoint, y_checkpoint);
 	}
 	
-	InitScroll(fase->bank, fase->map, 0, 0);
-	
-	INIT_CONSOLE(font, 1);
-		
-		
+	InitScroll(fase->bank, fase->map, 0, 0);		
 }
 
 void UPDATE(void) {

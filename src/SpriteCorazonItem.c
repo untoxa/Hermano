@@ -20,6 +20,8 @@ CHECK_CUSTOM_DATA_SIZE(CUSTOM_DATA);
 extern unsigned int y_eje_actual;
 
 void START(void) { 
+	memset((CUSTOM_DATA*)(THIS->custom_data), 0, CUSTOM_DATA_SIZE);
+
 	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 
 	THIS->x += 12;
