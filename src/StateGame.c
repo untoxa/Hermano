@@ -26,9 +26,6 @@ IMPORT_MAP(piramidemapa);
 // IMPORT_MAP(piramide_dentro);
 
 
-// TILES FOR DEBUG
-IMPORT_TILES(font);
-
 // SONGS DECLARATIONS
 DECLARE_MUSIC(title);
 DECLARE_MUSIC(cemetery);
