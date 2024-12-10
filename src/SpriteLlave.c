@@ -4,7 +4,7 @@
 #include "SpriteManager.h"
 #include "Sprite.h"
 
-extern unsigned char has_key;
+extern UINT8 has_key;
 
 /*
 has_key = 0 -- NO TIENE LA LLAVE

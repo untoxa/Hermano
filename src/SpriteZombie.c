@@ -8,7 +8,7 @@
 //Animations
 const UINT8 anim_zombie_walk[] = VECTOR(0, 1, 2, 1);
 extern UINT8 delta_time;
-extern unsigned char half_life;
+extern UINT8 half_life;
 
 typedef struct {
 	COMMON_FIELDS_T common;

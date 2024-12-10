@@ -9,8 +9,8 @@
 //Animations
 const UINT8 anim_enem_walk[] = VECTOR(0, 1, 2, 1);
 
-extern unsigned char half_life;
-extern unsigned int y_eje_actual;
+extern UINT8 half_life;
+extern UINT16 y_eje_actual;
 extern UINT8 delta_time;
 
 typedef struct {

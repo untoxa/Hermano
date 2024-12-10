@@ -15,13 +15,13 @@ DECLARE_MUSIC(level_start);
 
 extern UINT16 tiempo;
 UINT8 parpadeo;
-extern unsigned char level, mundo_actual, vidas;
+extern UINT8 level, mundo_actual, vidas;
 void pausa(UINT16 time) BANKED;
-unsigned char tile_num_1 [] = {97, 182, 116, 0}; //Tile donde empiezan los números
-unsigned char tile_negro [] = {0, 177, 55, 0}; //Tile donde empiezan los números
-unsigned char pos_y_titulo [] = {41, 30, 41, 8}; //Coordenada Y del sprite para el título del nivel
+UINT8 tile_num_1 [] = {97, 182, 116, 0}; //Tile donde empiezan los números
+UINT8 tile_negro [] = {0, 177, 55, 0}; //Tile donde empiezan los números
+UINT8 pos_y_titulo [] = {41, 30, 41, 8}; //Coordenada Y del sprite para el título del nivel
 	
-void print_texts(void){
+void print_texts(void) {
 	UINT8 tile_n;
 	tile_n = tile_num_1[mundo_actual];
 	if (parpadeo == 0) {

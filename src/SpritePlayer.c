@@ -31,16 +31,16 @@ void CreateCraneo(UINT16 x, INT16 y, INT16 p_facing_, UINT8 offset_y_) BANKED;
 #define JUMP_INC            220
 
 //Player variables
-signed int aux1,aux2;
-signed int cx1,cx2,cy1,cy2;
-unsigned char pt1, pt2;
+INT16 aux1,aux2;
+INT16 cx1,cx2,cy1,cy2;
+UINT8 pt1, pt2;
 UINT32 p_x;
 UINT32 p_y;
-signed int p_vx, p_vy, platform_vy;
-signed char gravity;
-signed int jump_inc;
-signed char p_facing;
-unsigned char last_mirror_player, pausado;
+INT16 p_vx, p_vy, platform_vy;
+INT8 gravity;
+INT16 jump_inc;
+INT8 p_facing;
+UINT8 last_mirror_player, pausado;
 
 
 //Animations
@@ -54,14 +54,14 @@ const UINT8 anim_player_tocado2[]    = VECTOR(7, 5); // THIS->tocado cuando ha d
 const UINT8 anim_player_disparando[] = VECTOR(6);
 
 // DATOS NIVELES
-extern unsigned char level, mundo_actual, vidas, has_key, bombas_disparadas, vidaextra;
-extern unsigned char half_life, frame_counter, disparando, bombas, autoscroll;
-extern signed char energy;
-extern unsigned int x_player;
-extern signed int y_player;
-extern unsigned char bocabajo;
-extern unsigned int y_eje_actual;
-extern unsigned int x_checkpoint, y_checkpoint;
+extern UINT8 level, mundo_actual, vidas, has_key, bombas_disparadas, vidaextra;
+extern UINT8 half_life, frame_counter, disparando, bombas, autoscroll;
+extern INT8 energy;
+extern UINT16 x_player;
+extern INT16 y_player;
+extern UINT8 bocabajo;
+extern UINT16 y_eje_actual;
+extern UINT16 x_checkpoint, y_checkpoint;
 
 //Funciones extra
 

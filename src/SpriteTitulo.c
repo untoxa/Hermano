@@ -4,7 +4,7 @@
 #include "SpriteManager.h"
 #include "Sprite.h"
 
-extern unsigned char half_life, mundo_actual;
+extern UINT8 half_life, mundo_actual;
 
 typedef struct {
 	COMMON_FIELDS_T common;

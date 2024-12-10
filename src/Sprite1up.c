@@ -6,8 +6,8 @@
 #include "Sound.h"
 // #include "Scroll.h"
 
-extern unsigned int y_eje_actual;
-extern unsigned char vidaextra, vidas;
+extern UINT16 y_eje_actual;
+extern UINT8 vidaextra, vidas;
 
 typedef struct {
 	COMMON_FIELDS_T common;

@@ -4,7 +4,7 @@
 #include "SpriteManager.h"
 #include "Sprite.h"
 
-extern unsigned char has_key;
+extern UINT8 has_key;
 
 typedef struct {
 	COMMON_FIELDS_T common;

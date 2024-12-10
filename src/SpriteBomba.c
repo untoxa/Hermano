@@ -10,7 +10,7 @@
 //Animations
 const UINT8 anim_explosion[] = VECTOR(1);
 extern UINT8 delta_time;
-extern unsigned char bombas_disparadas;
+extern UINT8 bombas_disparadas;
 
 typedef struct {
 	COMMON_FIELDS_T common;

@@ -7,14 +7,14 @@
 #include "Scroll.h"
 #include "Math.h"
 
-extern unsigned char disparando, half_life, bombas, energy, frame_counter;
-extern signed int y_player;
-unsigned char offset_y, craneo_usado;
+extern UINT8 disparando, half_life, bombas, energy, frame_counter;
+extern INT16 y_player;
+UINT8 offset_y, craneo_usado;
 
 
 //Animations
 const UINT8 anim_rotando[] = VECTOR(0, 1, 2, 3);
-unsigned char probabilidad;
+UINT8 probabilidad;
 typedef struct {
 	COMMON_FIELDS_T common;
 	INT16 vx;

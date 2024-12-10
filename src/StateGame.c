@@ -6,13 +6,13 @@
 #include "Music.h"
 #include <Palette.h>
 
-extern signed char desplazamiento_y_camara;
-extern unsigned char level, has_key;
-extern unsigned char mundo_actual, autoscroll;
-const unsigned int player_init_x[] = {16, 16, 		16, 16, 	32,16, 	 	632,0};
-const unsigned int player_init_y[] = {96, 256,  	248, 112,	144,596,  	64,0};
-const unsigned int y_eje_inframundo[] = {999, 390, 	999, 132, 	999, 999, 	999, 999};
-extern unsigned int y_eje_actual;
+extern INT8 desplazamiento_y_camara;
+extern UINT8 level, has_key;
+extern UINT8 mundo_actual, autoscroll;
+const UINT16 player_init_x[] = {16, 16, 		16, 16, 	32,16, 	 	632,0};
+const UINT16 player_init_y[] = {96, 256,  	248, 112,	144,596,  	64,0};
+const UINT16 y_eje_inframundo[] = {999, 390, 	999, 132, 	999, 999, 	999, 999};
+extern UINT16 y_eje_actual;
 extern UINT16 x_checkpoint, y_checkpoint;
 
 // IMPORT MAPS FOR LEVELS

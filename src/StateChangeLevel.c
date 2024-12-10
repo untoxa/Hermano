@@ -2,7 +2,7 @@
 
 #include "ZGBMain.h"
 
-extern unsigned char level, mundo_actual;
+extern UINT8 level, mundo_actual;
 
 void START(void) {
 }

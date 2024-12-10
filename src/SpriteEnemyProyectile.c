@@ -7,7 +7,7 @@
 #include "Scroll.h"
 
 
-extern unsigned char half_life;
+extern UINT8 half_life;
 extern UINT8 delta_time;
 
 typedef struct {

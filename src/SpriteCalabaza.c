@@ -11,7 +11,7 @@ const UINT8 anim_calabaza_idle[] = VECTOR(3);
 extern UINT8 delta_time;
 void CreateEnemyProyectile(UINT16 x, UINT16 y, INT8 vx_, INT16 vy_, INT8 gravity_) BANKED;
 
-extern unsigned char half_life;
+extern UINT8 half_life;
 typedef struct {
 	COMMON_FIELDS_T common;
 	INT8  vx;

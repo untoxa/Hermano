@@ -11,8 +11,8 @@
 const UINT8 anim_cojon_quietor[]  = VECTOR(2);
 const UINT8 anim_cojon_saltando[] = VECTOR(3);
 const UINT8 anim_cojon_salta[]    = VECTOR(1, 0);
-extern unsigned char half_life;
-extern signed int x_player;
+extern UINT8 half_life;
+extern INT16 x_player;
 
 extern UINT8 delta_time;
 

@@ -9,11 +9,11 @@
 const UINT8 anim_flying[] = VECTOR(0, 1, 2, 1);
 
 extern UINT8 delta_time;
-extern unsigned int x_player;
-extern signed int y_player;
+extern UINT16 x_player;
+extern INT16 y_player;
 void CreateEnemyProyectile(UINT16 x, UINT16 y, INT8 vx_, INT16 vy_, INT8 gravity_) BANKED;
 
-extern unsigned char half_life;
+extern UINT8 half_life;
 typedef struct {
 	COMMON_FIELDS_T common;
 	INT8   vx;

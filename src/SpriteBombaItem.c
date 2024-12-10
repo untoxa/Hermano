@@ -5,7 +5,7 @@
 #include "Sprite.h"
 #include "Scroll.h"
 
-extern unsigned int y_eje_actual;
+extern UINT16 y_eje_actual;
 
 typedef struct {
 	COMMON_FIELDS_T common;

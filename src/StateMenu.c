@@ -13,8 +13,8 @@ DECLARE_MUSIC(title);
 
 UINT8 tutorial = 0;
 
-extern unsigned char level, mundo_actual, vidas, has_key;
-extern unsigned int x_checkpoint, y_checkpoint;
+extern UINT8 level, mundo_actual, vidas, has_key;
+extern UINT16 x_checkpoint, y_checkpoint;
 
 void START(void) {	
 	//Init SFX

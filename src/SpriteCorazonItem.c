@@ -17,7 +17,7 @@ typedef struct {
 } CUSTOM_DATA;
 CHECK_CUSTOM_DATA_SIZE(CUSTOM_DATA);
 
-extern unsigned int y_eje_actual;
+extern UINT16 y_eje_actual;
 
 void START(void) { 
 	memset((CUSTOM_DATA*)(THIS->custom_data), 0, CUSTOM_DATA_SIZE);
