@@ -63,8 +63,7 @@ SPRITE_DEF_END
 
 #include "ZGBMain_Init.h"
 
+#define MAX_TILE_SOLIDO	27
+#define MAX_TILE_TRASPASABLE 35
+
 #endif
-
-
-#define MAX_TILE_SOLIDO	32
-#define MAX_TILE_TRASPASABLE 39

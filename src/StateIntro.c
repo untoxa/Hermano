@@ -25,8 +25,6 @@ UINT16 tiempo_cambios_pantalla[] = {350,320,460,360,340,300,0};
 void pausa(UINT16 time) BANKED;
 
 void START(void) {
-	MAP_OVERLAP_SPR;
-	
 	//Init SFX
 	INIT_SOUND();
 	

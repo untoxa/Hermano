@@ -9,8 +9,8 @@
 extern INT8 desplazamiento_y_camara;
 extern UINT8 level, has_key;
 extern UINT8 mundo_actual, autoscroll;
-const UINT16 player_init_x[] = {16, 16, 		16, 16, 	32,16, 	 	632,0};
-const UINT16 player_init_y[] = {96, 256,  	248, 112,	144,596,  	64,0};
+const UINT16 player_init_x[]    = {16,  16, 	16,  16, 	32,  16, 	632, 0};
+const UINT16 player_init_y[]    = {96,  256,  	248, 112,	144, 596,  	64,  0};
 const UINT16 y_eje_inframundo[] = {999, 390, 	999, 132, 	999, 999, 	999, 999};
 extern UINT16 y_eje_actual;
 extern UINT16 x_checkpoint, y_checkpoint;
@@ -67,9 +67,6 @@ const struct MapInfoBanked* mundos[] = {mundo0, mundo1, mundo2, mundo3};
 void START(void) {
 	desplazamiento_y_camara = 0;
 	y_eje_actual = y_eje_inframundo[level + (mundo_actual<<1)]; //Guardamos valor del eje de cambio de gravedad
-
-	//Iniciar el HUD
-	INIT_HUD(hud);
 	
 #ifdef NINTENDO
 	//Change Sprite Palettes
@@ -80,7 +77,7 @@ void START(void) {
 	const struct MapInfoBanked* niveles = mundos[mundo_actual];
 	const struct MapInfoBanked* fase = &niveles[level];
 	
-	if (x_checkpoint == 0){
+	if (x_checkpoint == 0) {
 		x_checkpoint = player_init_x[level + (mundo_actual<<1)];
 		y_checkpoint = player_init_y[level + (mundo_actual<<1)];
 	}
@@ -110,15 +107,25 @@ void START(void) {
 */
 	}
 	
-	if (autoscroll){
+	// Initialize tiles
+	ScrollInitTilesFromMap(0, fase->bank, fase->map);
+	// Initialize HUD
+	INIT_HUD(hud);
+	// Set scroll target
+	if (autoscroll) {
 		scroll_target = SpriteManagerAdd(SpriteAutoScroll, 60, 136);
 		SpriteManagerAdd(SpritePlayer, 32, 144);
 		has_key = 0;
-	}else{
+	} else {
 		scroll_target = SpriteManagerAdd(SpritePlayer, x_checkpoint, y_checkpoint);
 	}
-	
-	InitScroll(fase->bank, fase->map, 0, 0);		
+	// Init Map
+	ScrollSetMap(fase->bank, fase->map);
+	// Init Collisions
+	ScrollInitCollisions(NULL, NULL);
+	// Redraw screen
+	ScrollScreenRedraw();
+
 }
 
 void UPDATE(void) {

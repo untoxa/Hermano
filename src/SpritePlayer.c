@@ -66,15 +66,19 @@ extern UINT16 x_checkpoint, y_checkpoint;
 //Funciones extra
 
 void UpdateHudLife(void) {
+#ifdef NINTENDO
 	for (INT8 i = 0; i < PLAYER_ENERGY_MAX; ++i)
-		UPDATE_HUD_TILE(0 + i, 0, i < energy ? 30 : 29);
+		UPDATE_HUD_TILE(0 + i, 0, (i < energy) ? 3 : 2);
 	
-	if (has_key > 0) UPDATE_HUD_TILE(10, 0, 27);
+	if (has_key > 0) UPDATE_HUD_TILE(10, 0, 1);
+#endif
 }
 
 void UpdateHudBombs(void) {
+#ifdef NINTENDO
 	for (UINT8 i = 0; i < MAX_BOMBS; ++i)
-		UPDATE_HUD_TILE(19 - i, 0, i < bombas ? 31 : 28);
+		UPDATE_HUD_TILE(19 - i, 0, (i < bombas) ? 4 : 0);
+#endif
 }
 
 void check_2_points(void) {
@@ -87,6 +91,8 @@ void pausa(UINT16 time) BANKED {
 }
 
 void loss_energy(void) {	
+//	return; // invincibility
+
 	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
 
 	PlayFx(CHANNEL_1, 8, 0x3b, 0x48, 0xb2, 0x17, 0x84);
@@ -302,7 +308,6 @@ void reload_flipped_data(UINT8 sprite_type, UINT8 flip) NONBANKED {
 	UINT8 __save = CURRENT_BANK;
 	SWITCH_ROM(spriteDataBanks[sprite_type]);
 	set_sprite_data_flip(spriteIdxs[sprite_type], spriteDatas[sprite_type]->num_tiles, spriteDatas[sprite_type]->data, flip);
-
 	SWITCH_ROM(__save);
 }
 #endif
@@ -444,13 +449,17 @@ void UPDATE(void) {
 			
 
 #ifdef SEGA
-			if (THIS->mirror != last_mirror_player + bocabajo) {
+			static UINT8 new_mirror;
+			new_mirror = last_mirror_player | ((bocabajo) ? H_MIRROR : NO_MIRROR);
+			if (THIS->mirror != new_mirror) {
+				THIS->mirror = new_mirror;
 				SwapOAMs();
 				vsync();
-				reload_flipped_data(THIS->type, last_mirror_player + bocabajo);
+				reload_flipped_data(THIS->type, new_mirror);
 			}
+#else
+			THIS->mirror = last_mirror_player | ((bocabajo) ? H_MIRROR : NO_MIRROR);
 #endif			
-			THIS->mirror = last_mirror_player + bocabajo;
 
 			//Horizontal collisions
 			if (p_vx < 0){
@@ -546,12 +555,12 @@ void UPDATE(void) {
 			}
 			
 			//Detect EXIT - puerta
-			if (has_key > 0){				
+			if (has_key) {				
 				if(KEY_TICKED(J_UP)) { 
 					cx1 = THIS->x ; cy1 = THIS->y ;
 					cx2 = THIS->x+8 ; cy2 = THIS->y ;
 					check_2_points();
-					if (pt1 == 39 || pt2 == 39) { 
+					if (pt1 == MAX_TILE_TRASPASABLE || pt2 == MAX_TILE_TRASPASABLE) { // Exit gate upper left corner 
 						has_key = 0;
 						level ++;
 						x_checkpoint = 0;
