@@ -25,7 +25,7 @@ void START(void) {
 
 void UPDATE(void) {
 	CUSTOM_DATA* data = (CUSTOM_DATA*)THIS->custom_data;
-	if (THIS->x < scroll_x + 160){
+	if (THIS->x < scroll_x + SCREEN_WIDTH){
 		data->x_scroll += data->common.vy;
 		THIS->x = (UINT16)(data->x_scroll >> 6);
 	}

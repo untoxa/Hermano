@@ -25,13 +25,17 @@ UINT16 tiempo_cambios_pantalla[] = {350,320,460,360,340,300,0};
 void pausa(UINT16 time) BANKED;
 
 void START(void) {
+	MAP_OVERLAP_SPR;
+
 	//Init SFX
 	INIT_SOUND();
-	
-#ifdef NINTENDO
+
+#if defined(NINTENDO)
 	//Change Sprite Palettes
 	OBP0_REG = PAL_DEF(0,1,3,2); //Cambia la paleta 0
 	OBP1_REG = PAL_DEF(1,0,3,2); //Cambia la paleta 1
+#elif defined(SEGA)
+	SetBorderColor(RGB(0, 0, 0));
 #endif
 	
 	InitScroll(BANK(zgb_logo), &zgb_logo, 0, 0);
@@ -105,4 +109,8 @@ void UPDATE(void) {
 	if(KEY_TICKED(J_START)) {
 		SetState(StateMenu);
 	}
+}
+
+void DESTROY(void) {
+	MAP_OVERLAP_BKG;
 }

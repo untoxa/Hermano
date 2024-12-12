@@ -13,29 +13,37 @@ IMPORT_MAP(titulo_selva);
 IMPORT_MAP(entra_piramide);
 DECLARE_MUSIC(level_start);
 
+IMPORT_TILES(titlefont);
+
 extern UINT16 tiempo;
 UINT8 parpadeo;
 extern UINT8 level, mundo_actual, vidas;
 void pausa(UINT16 time) BANKED;
-UINT8 tile_num_1 [] = {97, 182, 116, 0}; //Tile donde empiezan los números
-UINT8 tile_negro [] = {0, 177, 55, 0}; //Tile donde empiezan los números
-UINT8 pos_y_titulo [] = {41, 30, 41, 8}; //Coordenada Y del sprite para el título del nivel
+
+UINT8 pos_y_titulo [] = {41, 30,  41,  8}; // Coordenada Y del sprite para el título del nivel
+
+#ifdef MASTERSYSTEM
+#define OFFSET_X 6
+#define OFFSET_Y 3
+#else
+#define OFFSET_X 0
+#define OFFSET_Y 0
+#endif
+
+UINT8 font_tiles; 
 	
 void print_texts(void) {
-	UINT8 tile_n;
-	tile_n = tile_num_1[mundo_actual];
 	if (parpadeo == 0) {
-		set_bkg_tile_xy(6,17, (mundo_actual + tile_n));
-		set_bkg_tile_xy(7,17, (tile_n - 4));
-		set_bkg_tile_xy(8,17, (level + tile_n));
-		set_bkg_tile_xy(19,17, (vidas + tile_n - 1));
+		set_bkg_tile_xy(OFFSET_X + 6,  OFFSET_Y + 17, (mundo_actual + font_tiles + 1));
+		set_bkg_tile_xy(OFFSET_X + 7,  OFFSET_Y + 17, (font_tiles + 10));
+		set_bkg_tile_xy(OFFSET_X + 8,  OFFSET_Y + 17, (level + font_tiles + 1));
+		set_bkg_tile_xy(OFFSET_X + 19, OFFSET_Y + 17, (vidas + font_tiles));
 	}
 	
-	tile_n = tile_negro[mundo_actual];
 	if (parpadeo == 15) {
-		 set_bkg_tile_xy(6,17, (tile_n));
-		 set_bkg_tile_xy(7,17, (tile_n));
-         set_bkg_tile_xy(8,17, (tile_n));
+		set_bkg_tile_xy(OFFSET_X + 6, OFFSET_Y + 17, (font_tiles));
+		set_bkg_tile_xy(OFFSET_X + 7, OFFSET_Y + 17, (font_tiles));
+         	set_bkg_tile_xy(OFFSET_X + 8, OFFSET_Y + 17, (font_tiles));
 	}
 	parpadeo ++;
 	
@@ -70,13 +78,13 @@ void START(void) {
 
 	PlayMusic(level_start, 0);
 	
-	
-	SpriteManagerAdd(SpriteTitulo, 0, pos_y_titulo[mundo_actual]);
+
+	SpriteManagerAdd(SpriteTitulo, 0, (OFFSET_Y << 3) + pos_y_titulo[mundo_actual]);
+
 	tiempo = 240;
 	parpadeo = 0;
 	
-	
-
+	font_tiles = ScrollSetTiles(last_tile_loaded, BANK(titlefont), &titlefont);	
 }
 
 void UPDATE(void) {	

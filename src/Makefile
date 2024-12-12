@@ -5,7 +5,7 @@ PROJECT_NAME = Hermano
 # Possible are: gb gbc pocket megaduck sms gg
 #TARGETS=gb pocket megaduck
 #TARGETS=gb
-TARGETS=gb megaduck gg
+TARGETS=gb megaduck gg sms
 
 CUSTOM_DATA_SIZE = 16
 

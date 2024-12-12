@@ -38,8 +38,18 @@ void START(void) {
 	InitScroll(BANK(menu), &menu, 0, 0);
 
 	PlayMusic(title, 0);
+#ifdef SEGA
+	#ifdef MASTERSYSTEM
+	SpriteManagerAdd(SpritePress, 80 + 40, 94 + 24);
+	SpriteManagerAdd(SpriteOjillos, 131 + 40, 38 + 24);
+	#else
+	SpriteManagerAdd(SpritePress, 80, 94);
+	SpriteManagerAdd(SpriteOjillos, 131, 38);
+	#endif
+#else
 	SpriteManagerAdd(SpritePress, 40, 94);
 	SpriteManagerAdd(SpriteOjillos, 131, 38);
+#endif
 }
 
 void UPDATE(void) {	
@@ -52,7 +62,7 @@ void UPDATE(void) {
 			SpriteManagerReset();
 			InitScroll(BANK(tutorial_screen), &tutorial_screen, 0, 0);
 			DISPLAY_ON;
-		}else SetState(StateTituloNivel);
+		} else SetState(StateTituloNivel);
 	}
 	
 	if(KEY_TICKED(J_SELECT)) {

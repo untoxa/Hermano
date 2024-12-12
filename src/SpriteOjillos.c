@@ -23,11 +23,7 @@ void UPDATE(void) {
 	
 	if (data->common.estado > 110) data->common.estado = 0;
 	
-	if(data->common.estado < 100) {
-		THIS->y = 144;
-	} else {
-		THIS->y = 38;
-	}
+	THIS->visible = (data->common.estado > 100);
 }
 
 void DESTROY(void) { 

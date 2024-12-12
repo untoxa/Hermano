@@ -13,7 +13,7 @@ _STATE(StateMenu)\
 _STATE(StateTituloNivel)\
 _STATE(StateGameOver)\
 _STATE(StateGame)\
-_STATE(StateIntro)\
+_STATE_EX(StateIntro)\
 _STATE(StateCredits)\
 STATE_DEF_END
 

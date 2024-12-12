@@ -1,1 +1,1 @@
--keep_palette_order -sw 80 -sh 8 -px 79 -py 0 -pw 40 -ph 8  -spr8x8 
+-keep_palette_order -sw 64 -sh 16 -px 64 -py 0 -pw 32 -ph 16 -spr8x8 

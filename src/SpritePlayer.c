@@ -506,8 +506,8 @@ void UPDATE(void) {
 			}
 			
 			//Limite derecha
-			if (p_x > (UINT32)(scroll_x + 140)<<6){
-				p_x = (UINT32)(scroll_x + 140)<<6;
+			if (p_x > (UINT32)(scroll_x + (SCREEN_WIDTH - 20)) << 6) {
+				p_x = (UINT32)(scroll_x + (SCREEN_WIDTH - 20)) << 6;
 				p_vx = 0;
 			}
 			

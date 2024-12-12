@@ -11,6 +11,12 @@ typedef struct {
 } CUSTOM_DATA;
 CHECK_CUSTOM_DATA_SIZE(CUSTOM_DATA);
 
+#ifdef MASTERSYSTEM
+#define OFFSET_X 6
+#else
+#define OFFSET_X 0
+#endif
+
 void START(void) { 
 	memset((CUSTOM_DATA*)(THIS->custom_data), 0, CUSTOM_DATA_SIZE);
 
@@ -21,7 +27,7 @@ void UPDATE(void) {
 	half_life != half_life;
 	SetFrame(THIS, mundo_actual);
 	
-	if (THIS->x < 120) THIS->x += 2;
+	if (THIS->x < (OFFSET_X << 2) + 120) THIS->x += 2;
 }
 
 void DESTROY(void) { 
