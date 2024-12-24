@@ -1,6 +1,7 @@
 #include "Banks/SetAutoBank.h"
 #include "ZGBMain.h"
 
+#include "Vector.h"
 #include "SpriteManager.h"
 #include "Sprite.h"
 // #include "Scroll.h"

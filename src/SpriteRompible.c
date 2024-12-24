@@ -1,8 +1,10 @@
 #include "Banks/SetAutoBank.h"
 #include "ZGBMain.h"
 
+#include "Vector.h"
 #include "SpriteManager.h"
 #include "Sprite.h"
+
 const UINT8 anim_pincho[] = VECTOR(0, 1);
 
 typedef struct {
