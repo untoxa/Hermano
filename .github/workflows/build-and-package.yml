@@ -1,4 +1,4 @@
-name: Build SushiNights
+name: Build project
 
 on:
   push:
